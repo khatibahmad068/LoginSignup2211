@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "197077212313",
+    "project_id": "ahmad-login",
+    "storage_bucket": "ahmad-login.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197077212313:android:f2630f1e272bc9a2a4ac08",
+        "android_client_info": {
+          "package_name": "com.example.login"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChSyghKCRo0PW-jqxOXlQVWdHmEyb4qtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
