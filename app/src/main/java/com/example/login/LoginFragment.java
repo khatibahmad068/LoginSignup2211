@@ -3,30 +3,33 @@ package com.example.login;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.rpc.context.AttributeContext;
 
 import org.jspecify.annotations.NonNull;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SignupFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupFragment extends Fragment {
+public class LoginFragment extends Fragment {
+
 
     private EditText etUsername, etPassword;
-    private Button btnSignup;
+    private TextView tvSignupLink;
+    private Button btnLogin;
 
     private FirebaseServices fbs;
 
@@ -39,7 +42,7 @@ public class SignupFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SignupFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -49,11 +52,11 @@ public class SignupFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SignupFragment.
+     * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignupFragment newInstance(String param1, String param2) {
-        SignupFragment fragment = new SignupFragment();
+    public static LoginFragment newInstance(String param1, String param2) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,6 +73,7 @@ public class SignupFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,10 +86,17 @@ public class SignupFragment extends Fragment {
         super.onStart();
         // connecting components
         fbs=FirebaseServices.getInstance();
-        etUsername = getView().findViewById(R.id.etUsernameSignup);
-        etPassword = getView().findViewById(R.id.etPasswordSignup);
-        btnSignup = getView().findViewById(R.id.btnsignupsignup);
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+        etUsername = getView().findViewById(R.id.etUsernameLogin);
+        etPassword = getView().findViewById(R.id.etPasswordLogin);
+        btnLogin = getView().findViewById(R.id.btnLoginLogin);
+        tvSignupLink = getView().findViewById(R.id.tvSignupLinkLogin);
+        tvSignupLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              gotoSignupFragment();
+            }
+        });
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Data Validation
@@ -93,28 +104,34 @@ public class SignupFragment extends Fragment {
                 String password = etPassword.getText().toString();
                 if (username.trim().isEmpty() && password.trim().isEmpty()){
 
-                Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
-                return;
+                    Toast.makeText(getActivity(), "Some fields are empty!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 // Signup procedure
-                fbs.getAuth().createUserWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                fbs.getAuth().signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
 
                     }
                 });
                 @Override
-                        public Void onComplete(@NonNull Task<AuthResult>task) {
+                public Void onComplete(@NonNull Task<AuthResult>task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(getActivity(),"You have succesfully Signed up!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"You have succesfully logged in!", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(getActivity(),"Failed to Signup! check user or password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Failed to login! check user or password!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
+    private void gotoSignupFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayoutmain,new SignupFragment());
+        ft.commit();
 }
+}
+
