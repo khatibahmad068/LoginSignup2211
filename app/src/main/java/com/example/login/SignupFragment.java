@@ -2,6 +2,7 @@ package com.example.login;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,11 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.rpc.context.AttributeContext;
-
-import org.jspecify.annotations.NonNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,22 +99,17 @@ public class SignupFragment extends Fragment {
                 }
 
                 // Signup procedure
-                fbs.getAuth().createUserWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                fbs.getAuth().createUserWithEmailAndPassword(username,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
+                    public void onSuccess(AuthResult authResult) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
                     }
                 });
-                @Override
-                        public Void onComplete(@NonNull Task<AuthResult>task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getActivity(),"You have succesfully Signed up!", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getActivity(),"Failed to Signup! check user or password!", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
     }

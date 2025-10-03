@@ -11,7 +11,7 @@ public class FirebaseServices {
     private FirebaseStorage storage;
 
 
-    public  FirebaseServices () {
+    public FirebaseServices() {
         auth = FirebaseAuth.getInstance();
         fire = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -19,10 +19,10 @@ public class FirebaseServices {
 
     public static FirebaseServices getInstance() {
         if (instance == null) {
-          instance = new FirebaseServices();
-    }
+            instance = new FirebaseServices();
+        }
         return instance;
-}
+    }
 
     public FirebaseAuth getAuth() {
         return auth;
@@ -33,7 +33,7 @@ public class FirebaseServices {
     }
 
 
-
     public FirebaseStorage getStorage() {
         return storage;
     }
+}
