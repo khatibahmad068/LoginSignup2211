@@ -3,9 +3,11 @@ package com.example.login;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,9 +81,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -97,6 +98,7 @@ public class LoginFragment extends Fragment {
               gotoSignupFragment();
             }
         });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,11 +117,8 @@ public class LoginFragment extends Fragment {
                     public void onSuccess(AuthResult authResult) {
 
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                }).addOnFailureListener(e -> {
 
-                    }
                 });
             }
         });
